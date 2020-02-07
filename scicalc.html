@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<title>New Tab App</title>
+	<title>Calculator</title>
+	<style>
+		table { 
+			height: 200px;
+			width: 600px;
+			border: 1px solid black;
+		}
+		table tr {
+			display: table-cell;
+			border: 1px solid black;
+		}
+		table tr td {
+			display: block;
+		}
+		table tr {
+			padding: 20px;
+		}
+		#text {
+			width: 250px;
+			height: 50px;
+			border: 1px solid black;
+			background-color:  #d4efdf;
+		}
+	</style>
+</head>
+<body>
+<table>
+	<tr>
+		<td>Παράμετροι<br><br><br></td>
+		<td>Συναρτήσεις<br><br><br></td>
+		<td>Αποτελέσματα</td>
+	</tr>
+	<tr>
+		<td><input type="text" id="numPrimes" value="number1, number2"/><br/><br/><br/></td>
+		<td><input type="button" onclick="findFact()" value="Factorial"/>
+			<input type="button" onclick="findPrimes()" value="Prime"/>
+		<td><p id="text"></p></td>
+	</tr>
+</table>
+
+<p id="output"></p>
+
+<script type="text/javascript">
+	//find the prime numbers
+	function findPrimes() {
+		var max = document.getElementById("numPrimes").value;
+		var primesWorker = new Worker('prime.js');
+		primesWorker.postMessage(max);
+		primesWorker.onmessage = function(ev) {
+			document.getElementById("text").innerHTML = ev.data;
+        }
+	}
+	//find the factorial numbers
+	function findFact() {
+		var n = document.getElementById("numPrimes").value;
+		var factWorker = new Worker('factorial.js');
+		factWorker.postMessage(n);
+		factWorker.onmessage = function (ev) {
+			document.getElementById("text").innerHTML = ev.data;
+		}
+	}
+
+</script>
+
+
+
+</body>
+</html>
